@@ -1,6 +1,6 @@
 import { APIEvent } from "@solidjs/start/server/types";
 
-type Reservation = {
+export type Reservation = {
     id: number,
     name: string
 }
