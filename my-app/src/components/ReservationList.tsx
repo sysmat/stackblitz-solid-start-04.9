@@ -2,16 +2,12 @@
 import { ErrorBoundary, For, Suspense, createResource } from "solid-js";
 import { Reservation } from "~/routes/api/reservation";
 
-
-export const fetchReservations = async (): Promise<Reservation[]> => (
-    await fetch(`./api/reservations`, {
-        method: 'GET',
-    })).json();
-
-// beacause is on the same route as todos it can not user route data, data must be combined on index level
 export const ReservationsList = () => {
 
-    const [reservations] = createResource<Reservation[]>(fetchReservations);
+  const [reservations] = createResource(async () => {
+    const response = await fetch("./api/reservations");
+    return (await response.json()) as Reservation[];
+  });    
 
     return (
         <ErrorBoundary fallback={err => <p>Napaka pri pridobivanju rezervacij</p>}>
